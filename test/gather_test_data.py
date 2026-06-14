@@ -24,11 +24,16 @@ def gather_sample_columns(file_path, word, languages='deen'):
     print(f"Saved to {file_path}")
 
 if __name__ == "__main__":
-    test_terms = 'was', 'kanzler', 'bremsstrahlung', 'hi', 'test'
-    p = '/home/lnrd/git/_thstkn/dictcc-mini/test/data/'
+    test_terms = {'DEEN': ['was', 'kanzler', 'bremsstrahlung', 'hi', 'test'],
+                  'DERU': ['pferd']}
+    try:
+        p = f'{os.getenv('DICTCC_BASE')}/test/data/'
+    except Exception as e:
+        print(f'Something went wrong:  {e}')
     os.makedirs(name=p, exist_ok=True)
-    for word in test_terms:
-        gather_sample_columns(f'{p}{word}.json', word)
-        sleep(1)
-        save_raw_html(f'{p}{word}.html', word)
-        sleep(1)
+    for lang_pair, words in test_terms.items():
+        for word in words:
+            gather_sample_columns(f'{p}{word}.json', word, languages=lang_pair)
+            sleep(1)
+            save_raw_html(f'{p}{word}.html', word, languages=lang_pair)
+            sleep(1)

@@ -20,21 +20,27 @@ def select_languages() -> str:
     country_codes = partition_to_column(' '.join(COUNTRY_CODES), get_terminal_size()[0])
     print(f'{country_codes}')
     user_inputs = ['', '']
+    msg = ''
     while not all(i.upper() in COUNTRY_CODES for i in user_inputs):
-        prompt = 'Enter two space-separated country codes: '
-        try:
-            in1, in2 = input(prompt).split()
-        except Exception as e:
+        raw_in = input('Enter country code(s): ')
+        if len(raw_in) > 4:
+            try:
+                in1, in2 = raw_in.split()
+            except Exception as e:
+                continue
+        elif any(len(raw_in) == num for num in (2,4)):
+            in1, in2 = raw_in[:2], raw_in[2:]
+        else:
             continue
         user_inputs = [in1, in2]
         for i, user_input in enumerate(user_inputs):
             if user_input.upper() not in COUNTRY_CODES:
                 if i >= 1 and user_input == '':
-                    print(f"Defaulting to '{DEFAULT_LANG1.upper()}'\n")
+                    msg = f"Defaulting to '{DEFAULT_LANG1.upper()}'\n"
                     user_inputs[1] = DEFAULT_LANG1
                 else:
-                    print(f'Invalid language selector: {user_input}')
-    print()
+                    msg = f'Invalid language selector: {user_input}'
+    print(msg)
     return ''.join(user_inputs)
 
 def main():

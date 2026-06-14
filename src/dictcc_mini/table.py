@@ -3,7 +3,7 @@ from itertools import zip_longest
 from dictcc_mini.config import FIELD_STYLES, FIELD_DEFAULT, \
                                INLINE_STYLES, INLINE_DEFAULT, \
                                DEFAULT_TABLE_LEN
-from dictcc_mini.misc import partition_to_column, next_head
+from dictcc_mini.misc import partition_to_column, next_head, visual_length
 
 class TableColumn:
     def __init__(self, entries: list[str],
@@ -34,8 +34,8 @@ class TableColumn:
             if i+1 > self.table_length:
                 break
             try:
-                res = len(entry) if not '\n' in entry else \
-                      max(len(part) for part in entry.split('\n'))
+                res = visual_length(entry) if not '\n' in entry else \
+                      max(visual_length(part) for part in entry.split('\n'))
             except Exception as e:
                 print(f'exception:\t{e}\n')
             longest = res if res > longest else longest
@@ -50,7 +50,7 @@ class TableColumn:
             current_indicator = field_ind0 if is_first_line else field_ind1
             available_width = self.line_width_thresh - len(current_indicator)
             # last line! base condition
-            if len(shorten_me) <= available_width:
+            if visual_length(shorten_me) <= available_width:
                 break       # add line and update shorten_me
             head, shorten_me = next_head(shorten_me, available_width)
             if not head:
@@ -66,7 +66,7 @@ class TableColumn:
         #print(f'{self.terminal_width = }\n{longest_other_column = }\n{self.line_width_thresh = }')
         entries = self.entries.copy()
         for i, line in enumerate(entries):
-            if len(line) > self.line_width_thresh:
+            if visual_length(line) > self.line_width_thresh:
                 entries[i] = self.split_long_str(line)
                 if not entries[i]:
                     msg = f'{entries[i] = } is not initialized?\n{line}'
@@ -106,7 +106,7 @@ class Table:
     def negotiate_widths(self, left_column: TableColumn,
                          right_column: TableColumn,
                          terminal_width: int, margin: int) \
-                                 -> tuple[TableColumn, TableColumn]:
+                                         -> tuple[TableColumn, TableColumn]:
         max_l, max_r = (col.longest_entry for col in (left_column, right_column))
         available_total = terminal_width - margin
         if max_l + max_r <= available_total:
@@ -125,7 +125,7 @@ class Table:
         return left_column, right_column
 
     def len_place_holders(self, left) -> int:
-        return self.longest_l - len(left)
+        return self.longest_l - visual_length(left)
 
     def left_with_place_holders(self, left, first: bool = True) -> str:
         pad = INLINE_STYLES[INLINE_DEFAULT]

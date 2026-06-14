@@ -7,9 +7,11 @@ COUNTRY_CODES = sorted(['EN', 'SV', 'IS', 'RU', 'RO', 'FR', 'IT', 'SK', 'NL',
                         'DE'])
 DEFAULT_LANG1 = getenv('DICTCC_LANG1', 'de')
 DEFAULT_LANG2 = getenv('DICTCC_LANG2', 'en')
-DEFAULT_TABLE_LEN = getenv('DICTCC_TABLE_LEN', 10)
+DEFAULT_TABLE_LEN = int(getenv('DICTCC_TABLE_LEN', 20))
 
 FIELD_DEFAULT = getenv('DICTCC_FIELD_STYLE', 'compact2')
+# tuples with three fields for prefixes for multiline entries as:
+# (FIRST_LINE, MIDDLE_LINES, LAST_LINE)
 FIELD_STYLES = {
     'wider':    ('',  '│  ', '╰╴ '),
     'wide1':    ('',  '│ ',  '╰╴'),

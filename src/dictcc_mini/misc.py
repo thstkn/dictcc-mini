@@ -1,3 +1,7 @@
+def visual_length(string: str) -> int:
+    combining_accents = string.count('\u0301')
+    return len(string) - combining_accents
+
 def split_index(string: str, start, available_width, delim) -> int:
     split_index = string.rfind(delim, start, available_width)
     if split_index == -1:

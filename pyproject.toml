@@ -8,7 +8,7 @@ exclude = ["test*"]
 
 [project]
 name = "dictcc-mini"
-version = "0.2.0"
+version = "0.2.1"
 authors = [
   { name="thstkn", email="dev@veddeler.org" },
 ]
