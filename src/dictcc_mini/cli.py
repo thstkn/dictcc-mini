@@ -1,8 +1,8 @@
 from argparse import ArgumentParser
 from shutil import get_terminal_size
 
-from dictcc_mini.config import COUNTRY_CODES, DEFAULT_LANG1
-from dictcc_mini.scraper import get_columns
+from dictcc_mini.config import COUNTRY_CODES, DEFAULT_LANG1, DEFAULT_TABLE_LEN
+from dictcc_mini.scraper import get_entries
 from dictcc_mini.table import Table
 from dictcc_mini.misc import partition_to_column
 
@@ -40,19 +40,20 @@ def select_languages() -> str:
                     user_inputs[1] = DEFAULT_LANG1
                 else:
                     msg = f'Invalid language selector: {user_input}'
-    print(msg)
-    return ''.join(user_inputs)
+    res = ''.join(user_inputs)
+    print(f'{msg}\n{res = }')
+    return res
 
 def main():
     ARGS = parse()
     lang_select = select_languages() if ARGS.language else None
-    left_column, right_column = get_columns(ARGS.word, lang_select)
-    table = Table(left_column, right_column, ARGS.full)
-    if not table.left_column.entries:
+    table_length = 1000 if ARGS.full else DEFAULT_TABLE_LEN
+    left_entries, right_entries = get_entries(ARGS.word, lang_select, table_length)
+    if not left_entries:
         print('No result')
         return
     else:
-        table.show()
+        Table(left_entries, right_entries, table_length).show()
 
 if __name__ == '__main__':
     main()

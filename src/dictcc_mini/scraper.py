@@ -15,14 +15,15 @@ def scrape_for_content(word: str, languages) -> str:
     except Exception as e:
         print(f'scrape_for_content: Error connecting to dict.cc: {e}')
 
-def get_columns(word: str, languages) -> tuple[list[str], list[str]]:
+def get_entries(word: str, languages: str, table_length: int) \
+            -> tuple[list[str], list[str]]:
     content = scrape_for_content(word, languages)
     if not content:
         raise ValueError(f'Got no content from `scrape_for_content()`!')
     parser = DictParser()
     parser.feed(content)
-    table_left, table_right = parser.data[0::2], parser.data[1::2]
-    return table_left, table_right
+    entries_left, entries_right = parser.data[0::2], parser.data[1::2]
+    return entries_left[ : table_length], entries_right[ : table_length]
 
 def get_url(word, langs=None) -> str:
     if not langs:

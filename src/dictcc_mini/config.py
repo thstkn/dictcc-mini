@@ -1,16 +1,18 @@
 from os import getenv
 import random
 
-COUNTRY_CODES = sorted(['EN', 'SV', 'IS', 'RU', 'RO', 'FR', 'IT', 'SK', 'NL',
-                        'PT', 'LA', 'FI', 'ES', 'HU', 'NO', 'BG', 'HR', 'CS',
-                        'DA', 'TR', 'UK', 'PL', 'EO', 'SR', 'SQ', 'EL', 'BS',
-                        'DE'])
+COUNTRY_CODES = sorted([
+    'EN', 'SV', 'IS', 'RU', 'RO', 'FR', 'IT', 'SK', 'NL', 'PT', 'LA', 'FI',
+    'ES', 'HU', 'NO', 'BG', 'HR', 'CS', 'DA', 'TR', 'UK', 'PL', 'EO', 'SR',
+    'SQ', 'EL', 'BS', 'DE'
+])
+
 DEFAULT_LANG1 = getenv('DICTCC_LANG1', 'de')
 DEFAULT_LANG2 = getenv('DICTCC_LANG2', 'en')
 DEFAULT_TABLE_LEN = int(getenv('DICTCC_TABLE_LEN', 20))
 
 FIELD_DEFAULT = getenv('DICTCC_FIELD_STYLE', 'compact2')
-# tuples with three fields for prefixes for multiline entries as:
+# tuples with three fields for prefixes for multiline entries as
 # (FIRST_LINE, MIDDLE_LINES, LAST_LINE)
 FIELD_STYLES = {
     'wider':    ('',  '│  ', '╰╴ '),
@@ -22,9 +24,14 @@ FIELD_STYLES = {
     'none':     ('',  '',    '')
 }
 
-INLINE_DEFAULT = getenv('DICTCC_INLINE_STYLE', 'default')
+INLINE_DEFAULT = int(getenv('DICTCC_INLINE_STYLE', 4))
 INLINE_STYLES = {
-    'default':  (' . ', '   '),
+    1:  ' . ',
+    2:  '  . ',
+    3:  '  .  ',
+    4:  '   .  ',
+    5:  '   .   ',
+    6:  '    .   ',
 }
 
 USER_AGENTS = [
