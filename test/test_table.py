@@ -9,11 +9,11 @@ from dictcc_mini.table import Table
 #WIDTHS = [80, 40, 30, 20]
 #WIDTHS = [80, 20]
 #WIDTHS = [80, get_terminal_size()[0]]
-#WIDTHS = [get_terminal_size()[0]]
-WIDTHS = [get_terminal_size()[0], 40]
+WIDTHS = [get_terminal_size()[0]]
+#WIDTHS = [get_terminal_size()[0], 40]
 #WIDTHS = [80]
 dictmini_path = getenv('DICTCC_BASE')
-TLGS = [20]
+TLGS = [1000]
 assert dictmini_path, 'Make sure `DICTCC_BASE` env var is set to correct path'
 PATH = f'{dictmini_path}/test/data'
 JSON_PATHS = [join(PATH, l) for i, l in enumerate(listdir(PATH))
@@ -26,7 +26,7 @@ def test_rendering_logic(path: str):
 
     for width in WIDTHS:
         for table_length in TLGS:
-            print(f"width:\t\t{width}\tword:\t{data['word']}\n")
+            print(f"width:\t{width}\tlength:{table_length}\tword:\t{data['word']}\n")
             table = Table(data['left'],
                           data['right'],
                           table_length=table_length,

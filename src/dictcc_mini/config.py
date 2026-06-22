@@ -9,6 +9,7 @@ COUNTRY_CODES = sorted([
 
 DEFAULT_LANG1 = getenv('DICTCC_LANG1', 'de')
 DEFAULT_LANG2 = getenv('DICTCC_LANG2', 'en')
+DEFAULT_LANG_PAIR = f'{DEFAULT_LANG1}{DEFAULT_LANG2}'
 DEFAULT_TABLE_LEN = int(getenv('DICTCC_TABLE_LEN', 20))
 
 FIELD_DEFAULT = getenv('DICTCC_FIELD_STYLE', 'compact2')
@@ -24,7 +25,7 @@ FIELD_STYLES = {
     'none':     ('',  '',    '')
 }
 
-INLINE_DEFAULT = int(getenv('DICTCC_INLINE_STYLE', 4))
+INLINE_DEFAULT = int(getenv('DICTCC_INLINE_STYLE', 3))
 INLINE_STYLES = {
     1:  ' . ',
     2:  '  . ',
